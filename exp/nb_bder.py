@@ -23,3 +23,29 @@ def bder(scale, num_filters = 64, num_res_blocks = 8, res_block_scaling = None):
 
     x = Lambda(denormalize)(x)
     return Model(x_in, x, name="bdsr")
+
+def res_block(x_in, filters, scaling):
+    x1 = Conv2D(filters, [1, 1], padding = 'same', activation = 'relu')(x_in)
+    x2_1 = Conv2D(filters, [3, 1], padding = 'same')(x_in)
+    x2_2 = Conv2D(x2_1.shape[3], [1, 3], padding = 'same', activation = 'relu')(x2_1)
+    y = Add()([x1, x2_2])
+    y = Conv2D(y.shape[3], [1, 1])(y)
+    if scale:
+        y = Lambda(pixel_shuffle(scale=scale))(y)
+        return Conv2D(16, [49, 49], padding = 'valid', activation = 'relu')(y)
+    return y
+
+def upsample(x, scale, num_filters):
+    def upsample_1(x, factor, **kwargs):
+        x = Conv2D(num_filters * (factor ** 2), 3, padding = 'same', **kwargs)(x)
+        return Lambda(pixel_shuffle(scale = factor))(x)
+
+    if scale == 2:
+        x = upsample_1(x, 2, name = 'conv2d_1_scale_2')
+    elif scale == 3:
+        x = upsample_1(x, 3, name = 'conv2d_1_scale_3')
+    elif scale == 4:
+        x = upsample_1(x, 2, name = 'conv2d_1_scale_2')
+        x = upsample_1(x, 2, name = 'conv2d_2_scale_2')
+
+    return x
