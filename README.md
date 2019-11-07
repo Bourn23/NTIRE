@@ -1,1 +1,1 @@
-## BiDirectional Enhanced Residual
+## Bi-Directional Enhanced Residual
