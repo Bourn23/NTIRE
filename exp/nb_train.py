@@ -98,7 +98,7 @@ class Trainer:
             self.checkpoint.restore(self.checkpoint_manager.latest_checkpoint)
             print(f"Model restored from checkpoint at step {self.checkpoint.step.numpy()}.")
 
-class BdsrTrainer(Trainer):
+class BderTrainer(Trainer):
     def __init__(self,
                  model,
                  checkpoint_dir,
