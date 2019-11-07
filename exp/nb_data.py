@@ -125,7 +125,7 @@ class DIV2K:
             if self._ntire_2018:
                 return os.path.join(self.images_dir, f'DIV2K_{self.subset}_LR_{self.downgrade}')
             else:
-                return os.path.join(self.images_dir, f'DIV2K+{self.subset}_LR_{self.downgrade}', f'X{self.scale}')
+                return os.path.join(self.images_dir, f'DIV2K_{self.subset}_LR_{self.downgrade}', f'X{self.scale}')
 
         # hr downloaded file name
         def _hr_images_archive(self):
@@ -136,7 +136,7 @@ class DIV2K:
             if self._ntire_2018:
                 return f'DIV2K_{self.subset}_LR_{self.downgrade}.zip'
             else:
-                return f'DIV2K_{self.subset}_LR{self.downgrade}_X{self.scale}.zip'
+                return f'DIV2K_{self.subset}_LR_{self.downgrade}_X{self.scale}.zip'
 
         # pre-process to PNG
         @staticmethod
