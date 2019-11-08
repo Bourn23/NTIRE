@@ -1,1 +1,1 @@
-## Bi-Directional Enhanced Residual Network
+## Enhanced EDSR Network
